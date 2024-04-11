@@ -94,6 +94,11 @@ function App() {
       const updatedColumns = { ...prevState };
 
       if (updatedColumns[itemName]) {
+        const unattachedNodes = updatedColumns["initialNodes"];
+        updatedColumns[itemName].items.forEach((item) => {
+          unattachedNodes.items.push(item);
+        });
+
         delete updatedColumns[itemName];
       } else {
         console.log("Does not exit");
