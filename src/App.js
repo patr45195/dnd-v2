@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./App.css";
+import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const nodes = [
   { id: "1", content: "node 1" },
@@ -17,18 +19,14 @@ const initData = {
   },
   chain_1: {
     name: "Chain 1",
-    items: [],
-  },
-  chain_2: {
-    name: "Chain 2",
-    items: [{ id: "6", content: "node 6" }],
-  },
-  chain_3: {
-    name: "Chain 3",
     items: [
       { id: "7", content: "node 7" },
       { id: "8", content: "node 8" },
     ],
+  },
+  chain_2: {
+    name: "Chain 2",
+    items: [{ id: "6", content: "node 6" }],
   },
 };
 
@@ -73,7 +71,6 @@ const onDragEnd = (result, columns, setColumns) => {
 
 function App() {
   const [columns, setColumns] = useState(initData);
-  const [split, setSplit] = useState(false);
 
   const addChain = () => {
     setColumns((prevState) => {
@@ -107,24 +104,23 @@ function App() {
     });
   };
 
-  const handleSplit = () => {
-    setSplit(!split);
-  };
-
   return (
     <div className="layout">
       <div className="wrapper">
         <DragDropContext
           onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
         >
-          <button onClick={handleSplit}>Split</button>
           {Object.entries(columns).map(([columnId, column], index) => {
             return (
               <div className="container" key={columnId}>
                 <h2>{column.name}</h2>
-                <button onClick={() => removeChain(columnId)}>
+                <Button
+                  onClick={() => removeChain(columnId)}
+                  variant="outlined"
+                  startIcon={<DeleteIcon />}
+                >
                   Remove Chain
-                </button>
+                </Button>
                 <div className="chainWrapper">
                   <Droppable droppableId={columnId} key={columnId}>
                     {(provided) => {
@@ -166,7 +162,7 @@ function App() {
             );
           })}
         </DragDropContext>
-        <button onClick={addChain}>Add Chain</button>
+        <Button onClick={addChain}>Add Chain</Button>
       </div>
     </div>
   );
