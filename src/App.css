@@ -4,10 +4,18 @@
   padding: 0;
 }
 
+.layout {
+  width: 1200px;
+  margin: auto;
+}
+
 .wrapper {
   display: flex;
-  justify-content: center;
   height: 100%;
+  justify-content: space-between;
+  width: 1200px;
+  background-color: aliceblue;
+  overflow: auto;
 }
 
 .container {
