@@ -3,6 +3,7 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./App.css";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
 
 const nodes = [
   { id: "1", content: "node 1" },
@@ -111,16 +112,18 @@ function App() {
           onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
         >
           {Object.entries(columns).map(([columnId, column], index) => {
+            const isUnattachedNodes = columnId === "initialNodes";
+
             return (
               <div className="container" key={columnId}>
-                <h2>{column.name}</h2>
-                <Button
-                  onClick={() => removeChain(columnId)}
-                  variant="outlined"
-                  startIcon={<DeleteIcon />}
-                >
-                  Remove Chain
-                </Button>
+                <div className="title-container">
+                  <h2>{column.name}</h2>
+                  {!isUnattachedNodes && (
+                    <IconButton onClick={() => removeChain(columnId)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  )}
+                </div>
                 <div className="chainWrapper">
                   <Droppable droppableId={columnId} key={columnId}>
                     {(provided) => {

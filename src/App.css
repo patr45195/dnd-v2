@@ -16,6 +16,10 @@
   align-items: center;
 }
 
+.title-container {
+  display: flex;
+}
+
 .chainWrapper {
   margin: 8px;
 }
