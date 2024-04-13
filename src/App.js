@@ -1,9 +1,9 @@
+import DeleteIcon from "@mui/icons-material/Delete";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import React, { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./App.css";
-import Button from "@mui/material/Button";
-import DeleteIcon from "@mui/icons-material/Delete";
-import IconButton from "@mui/material/IconButton";
 
 const nodes = [
   { id: "1", content: "node 1" },
@@ -13,25 +13,24 @@ const nodes = [
   { id: "5", content: "node 5" },
 ];
 
-// сделать условный рендер
 const initData = {
   initialNodes: {
     name: "Unattached nodes",
     items: nodes,
   },
   forward_chain_1: {
-    name: "Chain 1",
+    name: "For_Chain 1",
     items: [
       { id: "7", content: "node 7" },
       { id: "8", content: "node 8" },
     ],
   },
   forward_chain_2: {
-    name: "Chain 2",
+    name: "For_Chain 2",
     items: [{ id: "6", content: "node 6" }],
   },
   backward_chain_3: {
-    name: "Chain 3",
+    name: "Back_Chain 3",
     items: [{ id: "16", content: "node 16" }],
   },
 };
@@ -106,6 +105,14 @@ function App() {
     console.log(result);
   };
 
+  const canAddBackwardChain = () => {
+    return Object.keys(columns).pop().includes("forward");
+  };
+
+  const canAddForwardChain = () => {
+    return Object.keys(columns).pop().includes("backward");
+  };
+
   const addForwardChain = () => {
     setColumns((prevState) => {
       return {
@@ -167,7 +174,7 @@ function App() {
 
             return (
               <div className={getContainerStyle(columnId)} key={columnId}>
-                <div className="title-container">
+                <div className="title_container">
                   <h2>{column.name}</h2>
                   {!isUnattachedNodes && (
                     <IconButton onClick={() => removeChain(columnId)}>
@@ -175,7 +182,7 @@ function App() {
                     </IconButton>
                   )}
                 </div>
-                <div className="chainWrapper">
+                <div className="chain_wrapper">
                   <Droppable droppableId={columnId} key={columnId}>
                     {(provided) => {
                       return (
@@ -217,10 +224,15 @@ function App() {
           })}
         </DragDropContext>
         <div className="buttons-wrapper">
-          <Button variant="contained" onClick={addForwardChain}>
+          <Button
+            disabled={canAddForwardChain()}
+            variant="contained"
+            onClick={addForwardChain}
+          >
             Add Forward Chain
           </Button>
           <Button
+            disabled={canAddBackwardChain()}
             sx={{ background: "black" }}
             variant="contained"
             onClick={addBackwardChain}
