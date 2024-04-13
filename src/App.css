@@ -57,9 +57,8 @@
 
 .node {
   padding: 16px;
-  margin: 0px 0px 8px 0px;
+  margin: 0px 0px 4px 0px;
   border-radius: 5px;
-  min-height: 50px;
   background-color: #205375d1;
   color: white;
   box-shadow: 1px 1px 1px 1px rgb(8, 8, 8);

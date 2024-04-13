@@ -175,7 +175,7 @@ function App() {
             return (
               <div className={getContainerStyle(columnId)} key={columnId}>
                 <div className="title_container">
-                  <h2>{column.name}</h2>
+                  <h3>{column.name}</h3>
                   {!isUnattachedNodes && (
                     <IconButton onClick={() => removeChain(columnId)}>
                       <DeleteIcon />
@@ -239,15 +239,15 @@ function App() {
           >
             Add Backward Chain
           </Button>
-          <Button
-            sx={{ background: "#c15e5e" }}
-            variant="contained"
-            onClick={handleSubmit}
-          >
-            Submit
-          </Button>
         </div>
       </div>
+      <Button
+        sx={{ background: "#c15e5e", marginTop: "10px" }}
+        variant="contained"
+        onClick={handleSubmit}
+      >
+        Submit
+      </Button>
     </div>
   );
 }
