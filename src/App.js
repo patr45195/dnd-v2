@@ -78,11 +78,23 @@ const onDragEnd = (result, columns, setColumns) => {
 function App() {
   const [columns, setColumns] = useState(initData);
 
-  const addChain = () => {
+  const addForwardChain = () => {
     setColumns((prevState) => {
       return {
         ...prevState,
-        [`chain_${Object.keys(prevState).length}`]: {
+        [`forward_chain_${Object.keys(prevState).length}`]: {
+          name: `Chain_${Object.keys(prevState).length}`,
+          items: [],
+        },
+      };
+    });
+  };
+
+  const addBackwardChain = () => {
+    setColumns((prevState) => {
+      return {
+        ...prevState,
+        [`backward_chain_${Object.keys(prevState).length}`]: {
           name: `Chain_${Object.keys(prevState).length}`,
           items: [],
         },
@@ -110,6 +122,12 @@ function App() {
     });
   };
 
+  const getContainerStyle = (columnId) => {
+    if (columnId === "initialNodes") return "unattached_container";
+    if (columnId.includes("forward")) return "forward_container";
+    if (columnId.includes("backward")) return "backward_container";
+  };
+
   return (
     <div className="layout">
       <div className="wrapper">
@@ -120,7 +138,7 @@ function App() {
             const isUnattachedNodes = columnId === "initialNodes";
 
             return (
-              <div className="container" key={columnId}>
+              <div className={getContainerStyle(columnId)} key={columnId}>
                 <div className="title-container">
                   <h2>{column.name}</h2>
                   {!isUnattachedNodes && (
@@ -170,7 +188,18 @@ function App() {
             );
           })}
         </DragDropContext>
-        <Button onClick={addChain}>Add Chain</Button>
+        <div className="buttons-wrapper">
+          <Button variant="contained" onClick={addForwardChain}>
+            Add Forward Chain
+          </Button>
+          <Button
+            sx={{ background: "black" }}
+            variant="contained"
+            onClick={addBackwardChain}
+          >
+            Add Backward Chain
+          </Button>
+        </div>
       </div>
     </div>
   );
