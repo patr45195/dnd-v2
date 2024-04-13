@@ -13,21 +13,26 @@ const nodes = [
   { id: "5", content: "node 5" },
 ];
 
+// сделать условный рендер
 const initData = {
   initialNodes: {
     name: "Unattached nodes",
     items: nodes,
   },
-  chain_1: {
+  forward_chain_1: {
     name: "Chain 1",
     items: [
       { id: "7", content: "node 7" },
       { id: "8", content: "node 8" },
     ],
   },
-  chain_2: {
+  forward_chain_2: {
     name: "Chain 2",
     items: [{ id: "6", content: "node 6" }],
+  },
+  backward_chain_3: {
+    name: "Chain 3",
+    items: [{ id: "16", content: "node 16" }],
   },
 };
 
