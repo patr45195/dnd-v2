@@ -78,6 +78,34 @@ const onDragEnd = (result, columns, setColumns) => {
 function App() {
   const [columns, setColumns] = useState(initData);
 
+  const handleSubmit = () => {
+    const forwardItems = [];
+    const backwardItems = [];
+
+    const initialChainNames = Object.keys(columns);
+
+    initialChainNames.forEach((chainName) => {
+      if (columns.hasOwnProperty(chainName)) {
+        if (chainName.includes("forward")) {
+          columns[chainName].items.forEach((item) => {
+            forwardItems.push(Number(item.id));
+          });
+        } else if (chainName.includes("backward")) {
+          columns[chainName].items.forEach((item) => {
+            backwardItems.push(Number(item.id));
+          });
+        }
+      }
+    });
+
+    const result = {
+      forward: forwardItems,
+      backward: backwardItems,
+    };
+
+    console.log(result);
+  };
+
   const addForwardChain = () => {
     setColumns((prevState) => {
       return {
@@ -198,6 +226,13 @@ function App() {
             onClick={addBackwardChain}
           >
             Add Backward Chain
+          </Button>
+          <Button
+            sx={{ background: "#c15e5e" }}
+            variant="contained"
+            onClick={handleSubmit}
+          >
+            Submit
           </Button>
         </div>
       </div>
