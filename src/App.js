@@ -53,14 +53,22 @@ const onDragEnd = (
     const destItems = [...destColumn.items];
     const [removed] = sourceItems.splice(source.index, 1);
     destItems.splice(destination.index, 0, removed);
-    setForwardColums({
-      ...forwardColumns,
-      [source.droppableId]: {
-        ...sourceItems,
-        items: destColumn,
+
+    setColumns({
+      ...columns,
+      initialNodes: {
+        ...columns.initialNodes,
+        items: sourceItems,
       },
     });
-    console.log("error");
+
+    setForwardColums({
+      ...forwardColumns,
+      [destination.droppableId]: {
+        ...forwardColumns[destination.droppableId],
+        items: [...forwardColumns[destination.droppableId].items, removed],
+      },
+    });
   }
 
   // Если элементы перемещаются между блоками forward
