@@ -168,57 +168,59 @@ function App() {
             )
           }
         >
-          {Object.entries(columns).map(([columnId, column]) => {
-            return (
-              <div key={columnId}>
-                <div className="title_container">
-                  <div className="title-name">{column.name}</div>
+          <div className="unattached-block">
+            {Object.entries(columns).map(([columnId, column]) => {
+              return (
+                <div key={columnId}>
+                  <div className="title_container">
+                    <div className="title-name">{column.name}</div>
+                  </div>
+                  <div className="chain_wrapper">
+                    <Droppable droppableId={columnId} key={columnId}>
+                      {(provided, snapshot) => {
+                        return (
+                          <div
+                            className="chain"
+                            style={{
+                              background: snapshot.isDraggingOver
+                                ? "#cfe1eed1"
+                                : "rgb(235, 236, 240)",
+                            }}
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                          >
+                            {column.items.map((item, index) => {
+                              return (
+                                <Draggable
+                                  key={item.id}
+                                  draggableId={item.id}
+                                  index={index}
+                                >
+                                  {(provided) => {
+                                    return (
+                                      <div
+                                        className="node"
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                      >
+                                        {item.content}
+                                      </div>
+                                    );
+                                  }}
+                                </Draggable>
+                              );
+                            })}
+                            {provided.placeholder}
+                          </div>
+                        );
+                      }}
+                    </Droppable>
+                  </div>
                 </div>
-                <div className="chain_wrapper">
-                  <Droppable droppableId={columnId} key={columnId}>
-                    {(provided, snapshot) => {
-                      return (
-                        <div
-                          className="chain"
-                          style={{
-                            background: snapshot.isDraggingOver
-                              ? "#cfe1eed1"
-                              : "rgb(235, 236, 240)",
-                          }}
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
-                        >
-                          {column.items.map((item, index) => {
-                            return (
-                              <Draggable
-                                key={item.id}
-                                draggableId={item.id}
-                                index={index}
-                              >
-                                {(provided) => {
-                                  return (
-                                    <div
-                                      className="node"
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                    >
-                                      {item.content}
-                                    </div>
-                                  );
-                                }}
-                              </Draggable>
-                            );
-                          })}
-                          {provided.placeholder}
-                        </div>
-                      );
-                    }}
-                  </Droppable>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
           <div className="forward-block">
             {Object.entries(forwardColumns).map(([columnId, column]) => {
               return (
