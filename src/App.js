@@ -144,8 +144,6 @@ function App() {
   };
 
   const removeChain = (itemName) => {
-    if (itemName === "initialNodes") return;
-
     setColumns((prevState) => {
       const updatedColumns = { ...prevState };
 
