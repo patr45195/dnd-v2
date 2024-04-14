@@ -354,6 +354,7 @@ function App() {
             })}
           </div>
           <div className="forward-block">
+            <h2>Forward block</h2>
             {Object.entries(forwardColumns).map(([columnId, column]) => {
               return (
                 <div key={columnId}>
@@ -407,6 +408,7 @@ function App() {
             })}
           </div>
           <div className="backward-block">
+            <h2>Backward block</h2>
             {Object.entries(backwardColumns).map(([columnId, column]) => {
               return (
                 <div key={columnId}>
