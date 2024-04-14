@@ -54,6 +54,10 @@ const onDragEnd = (
     const [removed] = sourceItems.splice(source.index, 1);
     destItems.splice(destination.index, 0, removed);
 
+    const forwardColumnId = Object.keys(forwardColumns).find((key) =>
+      destination.droppableId.includes(key)
+    );
+
     setColumns({
       ...columns,
       initialNodes: {
@@ -64,9 +68,13 @@ const onDragEnd = (
 
     setForwardColums({
       ...forwardColumns,
-      [destination.droppableId]: {
-        ...forwardColumns[destination.droppableId],
-        items: [...forwardColumns[destination.droppableId].items, removed],
+      [forwardColumnId]: {
+        ...forwardColumns[forwardColumnId],
+        items: [
+          ...forwardColumns[forwardColumnId].items.slice(0, destination.index),
+          removed,
+          ...forwardColumns[forwardColumnId].items.slice(destination.index),
+        ],
       },
     });
   }
