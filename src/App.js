@@ -236,6 +236,47 @@ const onDragEnd = (
       });
     }
   }
+
+  // Если элементы перемещаются между блоками backward
+  if (
+    source.droppableId.includes("backward") &&
+    destination.droppableId.includes("backward")
+  ) {
+    if (source.droppableId !== destination.droppableId) {
+      console.log(result);
+      // Если элемент перемещается в другой блок
+      const sourceColumn = backwardColumns[source.droppableId];
+      const destColumn = backwardColumns[destination.droppableId];
+      const sourceItems = [...sourceColumn.items];
+      const destItems = [...destColumn.items];
+      const [removed] = sourceItems.splice(source.index, 1);
+      destItems.splice(destination.index, 0, removed);
+      setBackwardColums({
+        ...backwardColumns,
+        [source.droppableId]: {
+          ...sourceColumn,
+          items: sourceItems,
+        },
+        [destination.droppableId]: {
+          ...destColumn,
+          items: destItems,
+        },
+      });
+    } else {
+      // Если элемент остаётся внутри родительского блока
+      const column = backwardColumns[source.droppableId];
+      const copiedItems = [...column.items];
+      const [removed] = copiedItems.splice(source.index, 1);
+      copiedItems.splice(destination.index, 0, removed);
+      setBackwardColums({
+        ...backwardColumns,
+        [source.droppableId]: {
+          ...column,
+          items: copiedItems,
+        },
+      });
+    }
+  }
 };
 
 function App() {
