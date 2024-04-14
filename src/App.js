@@ -2,34 +2,17 @@ import React, { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./App.css";
 
-const nodes = [
-  { id: "1", content: "node 1" },
-  { id: "2", content: "node 2" },
-  { id: "3", content: "node 3" },
-  { id: "4", content: "node 4" },
-  { id: "5", content: "node 5" },
-];
-
 const initData = {
   initialNodes: {
     name: "Unattached nodes",
-    items: nodes,
+    items: [
+      { id: "1", content: "node 1" },
+      { id: "2", content: "node 2" },
+      { id: "3", content: "node 3" },
+      { id: "4", content: "node 4" },
+      { id: "5", content: "node 5" },
+    ],
   },
-  // forward_chain_1: {
-  //   name: "Forward Chain",
-  //   items: [
-  //     { id: "7", content: "node 7" },
-  //     { id: "8", content: "node 8" },
-  //   ],
-  // },
-  // forward_chain_2: {
-  //   name: "Forward Chain",
-  //   items: [{ id: "6", content: "node 6" }],
-  // },
-  // backward_chain_3: {
-  //   name: "Backward Chain",
-  //   items: [{ id: "16", content: "node 16" }],
-  // },
 };
 
 const initForwardData = {
@@ -59,6 +42,28 @@ const onDragEnd = (
   if (!result.destination) return;
   const { source, destination } = result;
 
+  // Если нода перемещается из Unattached nodes в forward block
+  if (
+    source.droppableId.includes("initialNodes") &&
+    destination.droppableId.includes("forward")
+  ) {
+    const sourceColumn = columns[source.droppableId];
+    const destColumn = forwardColumns[destination.droppableId];
+    const sourceItems = [...sourceColumn.items];
+    const destItems = [...destColumn.items];
+    const [removed] = sourceItems.splice(source.index, 1);
+    destItems.splice(destination.index, 0, removed);
+    setForwardColums({
+      ...forwardColumns,
+      [source.droppableId]: {
+        ...sourceItems,
+        items: destColumn,
+      },
+    });
+    console.log("error");
+  }
+
+  // Если элементы перемещаются между блоками forward
   if (
     source.droppableId.includes("forward") &&
     destination.droppableId.includes("forward")
