@@ -79,6 +79,14 @@ const onDragEnd = (
     });
   }
 
+  // Если нода перемещается из Unattached nodes в forward block
+  if (
+    source.droppableId.includes("forward") &&
+    destination.droppableId.includes("initialNodes")
+  ) {
+    console.log("from forward to main");
+  }
+
   // Если элементы перемещаются между блоками forward
   if (
     source.droppableId.includes("forward") &&
