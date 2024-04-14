@@ -115,7 +115,10 @@ function App() {
 
   const canAddBackwardChain = () => {
     const columnKeys = Object.keys(columns);
-    return !columnKeys.slice(-1)[0].includes("backward");
+    return (
+      !columnKeys.slice(-1)[0].includes("backward") &&
+      columnKeys.slice(1).includes("forward")
+    );
   };
 
   const addForwardChain = () => {
