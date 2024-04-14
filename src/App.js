@@ -190,10 +190,15 @@ function App() {
                 </div>
                 <div className="chain_wrapper">
                   <Droppable droppableId={columnId} key={columnId}>
-                    {(provided) => {
+                    {(provided, snapshot) => {
                       return (
                         <div
                           className="chain"
+                          style={{
+                            background: snapshot.isDraggingOver
+                              ? "#cfe1eed1"
+                              : "rgb(235, 236, 240)",
+                          }}
                           {...provided.droppableProps}
                           ref={provided.innerRef}
                         >
