@@ -229,31 +229,31 @@ function App() {
             );
           })}
         </DragDropContext>
-        <div className="buttons-wrapper">
-          <Button
-            disabled={canAddForwardChain()}
-            variant="contained"
-            onClick={addForwardChain}
-          >
-            Add Forward Chain
-          </Button>
-          <Button
-            disabled={canAddBackwardChain()}
-            sx={{ background: "black" }}
-            variant="contained"
-            onClick={addBackwardChain}
-          >
-            Add Backward Chain
-          </Button>
-        </div>
       </div>
-      <Button
-        sx={{ background: "#c15e5e", marginTop: "10px" }}
-        variant="contained"
-        onClick={handleSubmit}
-      >
-        Submit
-      </Button>
+      <div className="buttons-wrapper">
+        <Button
+          sx={{ background: "#c15e5e" }}
+          variant="contained"
+          onClick={handleSubmit}
+        >
+          Submit
+        </Button>
+        <Button
+          disabled={canAddForwardChain()}
+          variant="contained"
+          onClick={addForwardChain}
+        >
+          Add Forward Chain
+        </Button>
+        <Button
+          disabled={canAddBackwardChain()}
+          sx={{ background: "black" }}
+          variant="contained"
+          onClick={addBackwardChain}
+        >
+          Add Backward Chain
+        </Button>
+      </div>
     </div>
   );
 }
