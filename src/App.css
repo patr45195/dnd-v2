@@ -31,7 +31,7 @@
   flex-direction: column;
   align-items: center;
   border-radius: 10px;
-  box-shadow: 1px 1px 2px 2px rgb(59, 167, 26);
+  box-shadow: 1px 1px 2px 2px rgba(70, 138, 49, 0.65);
   margin: 3px;
 }
 
@@ -40,12 +40,18 @@
   flex-direction: column;
   align-items: center;
   border-radius: 10px;
-  border: 3px solid #da2323;
-  margin: 1px;
+  box-shadow: 1px 1px 2px 2px rgba(187, 16, 30, 0.65);
+  margin: 3px;
 }
 
 .title_container {
   display: flex;
+  align-items: center;
+}
+
+.title-name {
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .chain {

@@ -19,18 +19,18 @@ const initData = {
     items: nodes,
   },
   forward_chain_1: {
-    name: "For_Chain 1",
+    name: "Forward Chain",
     items: [
       { id: "7", content: "node 7" },
       { id: "8", content: "node 8" },
     ],
   },
   forward_chain_2: {
-    name: "For_Chain 2",
+    name: "Forward Chain",
     items: [{ id: "6", content: "node 6" }],
   },
   backward_chain_3: {
-    name: "Back_Chain 3",
+    name: "Backward Chain",
     items: [{ id: "16", content: "node 16" }],
   },
 };
@@ -126,7 +126,7 @@ function App() {
       return {
         ...prevState,
         [`forward_chain_${Object.keys(prevState).length}`]: {
-          name: `For_Chain ${Object.keys(prevState).length}`,
+          name: `Forward Chain`,
           items: [],
         },
       };
@@ -138,7 +138,7 @@ function App() {
       return {
         ...prevState,
         [`backward_chain_${Object.keys(prevState).length}`]: {
-          name: `Back_Chain ${Object.keys(prevState).length}`,
+          name: `Backward Chain`,
           items: [],
         },
       };
@@ -181,7 +181,7 @@ function App() {
             return (
               <div className={getContainerStyle(columnId)} key={columnId}>
                 <div className="title_container">
-                  <h3>{column.name}</h3>
+                  <div className="title-name">{column.name}</div>
                   {!isUnattachedNodes && (
                     <IconButton onClick={() => removeChain(columnId)}>
                       <DeleteIcon />
