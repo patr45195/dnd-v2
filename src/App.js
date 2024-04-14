@@ -105,12 +105,18 @@ function App() {
     console.log(result);
   };
 
-  const canAddBackwardChain = () => {
-    return Object.keys(columns).pop().includes("forward");
+  const canAddForwardChain = () => {
+    const columnKeys = Object.keys(columns);
+    if (columnKeys.length === 1 && columnKeys[0] === "initialNodes") {
+      return false;
+    }
+    return !columnKeys.slice(-1)[0].includes("forward");
   };
 
-  const canAddForwardChain = () => {
-    return Object.keys(columns).pop().includes("backward");
+  const canAddBackwardChain = () => {
+    const columnKeys = Object.keys(columns);
+    // Проверяем, что последний ключ содержит "backward"
+    return !columnKeys.slice(-1)[0].includes("backward");
   };
 
   const addForwardChain = () => {
@@ -118,7 +124,7 @@ function App() {
       return {
         ...prevState,
         [`forward_chain_${Object.keys(prevState).length}`]: {
-          name: `Chain_${Object.keys(prevState).length}`,
+          name: `For_Chain ${Object.keys(prevState).length}`,
           items: [],
         },
       };
@@ -130,7 +136,7 @@ function App() {
       return {
         ...prevState,
         [`backward_chain_${Object.keys(prevState).length}`]: {
-          name: `Chain_${Object.keys(prevState).length}`,
+          name: `Back_Chain ${Object.keys(prevState).length}`,
           items: [],
         },
       };
