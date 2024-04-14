@@ -32,12 +32,31 @@ const initForwardData = {
   },
 };
 
+const initBackwardData = {
+  backward_chain_1: {
+    name: "Backward Chain",
+    items: [
+      { id: "117", content: "node 117" },
+      { id: "118", content: "node 118" },
+    ],
+  },
+  backward_chain_2: {
+    name: "Backward Chain",
+    items: [
+      { id: "116", content: "node 116" },
+      { id: "136", content: "node 136" },
+    ],
+  },
+};
+
 const onDragEnd = (
   result,
   columns,
   setColumns,
   forwardColumns,
-  setForwardColums
+  setForwardColums,
+  backwardColumns,
+  setBackwardColums
 ) => {
   if (!result.destination) return;
   const { source, destination } = result;
@@ -108,6 +127,46 @@ const onDragEnd = (
     });
   }
 
+  // Если нода перемещается из Unattached nodes в backward block
+  if (
+    source.droppableId.includes("initialNodes") &&
+    destination.droppableId.includes("backward")
+  ) {
+    const sourceColumn = columns[source.droppableId];
+    const destColumn = backwardColumns[destination.droppableId];
+    const sourceItems = [...sourceColumn.items];
+    const destItems = [...destColumn.items];
+    const [removed] = sourceItems.splice(source.index, 1);
+    destItems.splice(destination.index, 0, removed);
+
+    const backwardColumnId = Object.keys(backwardColumns).find((key) =>
+      destination.droppableId.includes(key)
+    );
+
+    setColumns({
+      ...columns,
+      initialNodes: {
+        ...columns.initialNodes,
+        items: sourceItems,
+      },
+    });
+
+    setBackwardColums({
+      ...backwardColumns,
+      [backwardColumnId]: {
+        ...backwardColumns[backwardColumnId],
+        items: [
+          ...backwardColumns[backwardColumnId].items.slice(
+            0,
+            destination.index
+          ),
+          removed,
+          ...backwardColumns[backwardColumnId].items.slice(destination.index),
+        ],
+      },
+    });
+  }
+
   // Если элементы перемещаются между блоками forward
   if (
     source.droppableId.includes("forward") &&
@@ -153,6 +212,7 @@ const onDragEnd = (
 function App() {
   const [columns, setColumns] = useState(initData);
   const [forwardColumns, setForwardColums] = useState(initForwardData);
+  const [backwardColumns, setBackwardColums] = useState(initBackwardData);
 
   return (
     <div className="layout">
@@ -164,7 +224,9 @@ function App() {
               columns,
               setColumns,
               forwardColumns,
-              setForwardColums
+              setForwardColums,
+              backwardColumns,
+              setBackwardColums
             )
           }
         >
@@ -223,6 +285,59 @@ function App() {
           </div>
           <div className="forward-block">
             {Object.entries(forwardColumns).map(([columnId, column]) => {
+              return (
+                <div key={columnId}>
+                  <div className="title_container">
+                    <div className="title-name">{column.name}</div>
+                  </div>
+                  <div className="chain_wrapper">
+                    <Droppable droppableId={columnId} key={columnId}>
+                      {(provided, snapshot) => {
+                        return (
+                          <div
+                            className="chain"
+                            style={{
+                              background: snapshot.isDraggingOver
+                                ? "#cfe1eed1"
+                                : "rgb(235, 236, 240)",
+                            }}
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                          >
+                            {column.items.map((item, index) => {
+                              return (
+                                <Draggable
+                                  key={item.id}
+                                  draggableId={item.id}
+                                  index={index}
+                                >
+                                  {(provided) => {
+                                    return (
+                                      <div
+                                        className="node"
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                      >
+                                        {item.content}
+                                      </div>
+                                    );
+                                  }}
+                                </Draggable>
+                              );
+                            })}
+                            {provided.placeholder}
+                          </div>
+                        );
+                      }}
+                    </Droppable>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="backward-block">
+            {Object.entries(backwardColumns).map(([columnId, column]) => {
               return (
                 <div key={columnId}>
                   <div className="title_container">
