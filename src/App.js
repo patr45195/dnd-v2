@@ -115,7 +115,6 @@ function App() {
 
   const canAddBackwardChain = () => {
     const columnKeys = Object.keys(columns);
-    // Проверяем, что последний ключ содержит "backward"
     return !columnKeys.slice(-1)[0].includes("backward");
   };
 
@@ -150,7 +149,7 @@ function App() {
       if (updatedColumns[itemName]) {
         const unattachedNodes = updatedColumns["initialNodes"];
         updatedColumns[itemName].items.forEach((item) => {
-          unattachedNodes.items.push(item);
+          unattachedNodes.items.unshift(item);
         });
 
         delete updatedColumns[itemName];
