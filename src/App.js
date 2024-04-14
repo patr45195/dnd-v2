@@ -167,6 +167,35 @@ const onDragEnd = (
     });
   }
 
+  // Если нода перемещается из backward block в Unattached nodes
+  if (
+    source.droppableId.includes("backward") &&
+    destination.droppableId.includes("initialNodes")
+  ) {
+    const sourceColumn = backwardColumns[source.droppableId];
+    const destColumn = columns[destination.droppableId];
+    const sourceItems = [...sourceColumn.items];
+    const destItems = [...destColumn.items];
+    const [removed] = sourceItems.splice(source.index, 1);
+    destItems.splice(destination.index, 0, removed);
+
+    setBackwardColums({
+      ...backwardColumns,
+      [source.droppableId]: {
+        ...sourceColumn,
+        items: sourceItems,
+      },
+    });
+
+    setColumns({
+      ...columns,
+      initialNodes: {
+        ...destColumn,
+        items: destItems,
+      },
+    });
+  }
+
   // Если элементы перемещаются между блоками forward
   if (
     source.droppableId.includes("forward") &&
