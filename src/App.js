@@ -79,12 +79,33 @@ const onDragEnd = (
     });
   }
 
-  // Если нода перемещается из Unattached nodes в forward block
+  // Если нода перемещается из forward block в Unattached nodes
   if (
     source.droppableId.includes("forward") &&
     destination.droppableId.includes("initialNodes")
   ) {
-    console.log("from forward to main");
+    const sourceColumn = forwardColumns[source.droppableId];
+    const destColumn = columns[destination.droppableId];
+    const sourceItems = [...sourceColumn.items];
+    const destItems = [...destColumn.items];
+    const [removed] = sourceItems.splice(source.index, 1);
+    destItems.splice(destination.index, 0, removed);
+
+    setForwardColums({
+      ...forwardColumns,
+      [source.droppableId]: {
+        ...sourceColumn,
+        items: sourceItems,
+      },
+    });
+
+    setColumns({
+      ...columns,
+      initialNodes: {
+        ...destColumn,
+        items: destItems,
+      },
+    });
   }
 
   // Если элементы перемещаются между блоками forward
