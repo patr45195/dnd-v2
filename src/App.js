@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./App.css";
 import { handleDragAndDrop } from "./utils/handleDragAndDrop";
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const initData = {
   initialNodes: {
@@ -79,6 +80,8 @@ function App() {
       };
     });
   };
+
+  const removeChain = (itemName) => {};
 
   return (
     <div className="layout">
@@ -157,6 +160,9 @@ function App() {
                   <div key={columnId}>
                     <div className="title_container">
                       <div className="title-name">{column.name}</div>
+                      <IconButton onClick={() => removeChain(columnId)}>
+                        <DeleteIcon />
+                      </IconButton>
                     </div>
                     <div className="chain_wrapper">
                       <Droppable droppableId={columnId} key={columnId}>
