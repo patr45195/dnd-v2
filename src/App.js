@@ -81,7 +81,38 @@ function App() {
     });
   };
 
-  const removeChain = (itemName) => {};
+  const moveNodesToUnattached = (nodes) => {
+    setColumns((prevState) => {
+      const unattachedNodes = {
+        ...prevState.initialNodes,
+        items: [...nodes, ...prevState.initialNodes.items],
+      };
+      return {
+        ...prevState,
+        initialNodes: unattachedNodes,
+      };
+    });
+  };
+
+  const removeChain = (columnName) => {
+    if (columnName.includes("forward")) {
+      const nodes = forwardColumns[columnName].items;
+      moveNodesToUnattached(nodes);
+      setForwardColums((prevState) => {
+        const newState = { ...prevState };
+        delete newState[columnName];
+        return newState;
+      });
+    } else if (columnName.includes("backward")) {
+      const nodes = backwardColumns[columnName].items;
+      moveNodesToUnattached(nodes);
+      setBackwardColums((prevState) => {
+        const newState = { ...prevState };
+        delete newState[columnName];
+        return newState;
+      });
+    }
+  };
 
   return (
     <div className="layout">
@@ -224,6 +255,9 @@ function App() {
                   <div key={columnId}>
                     <div className="title_container">
                       <div className="title-name">{column.name}</div>
+                      <IconButton onClick={() => removeChain(columnId)}>
+                        <DeleteIcon />
+                      </IconButton>
                     </div>
                     <div className="chain_wrapper">
                       <Droppable droppableId={columnId} key={columnId}>
