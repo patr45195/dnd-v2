@@ -63,6 +63,7 @@
 .title_container {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .title-name {
