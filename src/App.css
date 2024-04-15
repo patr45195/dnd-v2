@@ -33,6 +33,7 @@
 
 .backward-block {
   display: flex;
+  align-items: center;
 }
 
 .direction-title {

@@ -68,6 +68,18 @@ function App() {
     });
   };
 
+  const addBackwardChain = () => {
+    setBackwardColums((prevState) => {
+      return {
+        ...prevState,
+        [`backward_chain_${Object.keys(prevState).length + 1}`]: {
+          name: "Chain Item",
+          items: [],
+        },
+      };
+    });
+  };
+
   return (
     <div className="layout">
       <div className="wrapper">
@@ -252,6 +264,13 @@ function App() {
                   </div>
                 );
               })}
+              <Button
+                sx={{ width: "100px", height: "100px" }}
+                variant="contained"
+                onClick={addBackwardChain}
+              >
+                Add Backward Chain
+              </Button>
             </div>
           </div>
         </DragDropContext>
