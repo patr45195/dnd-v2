@@ -60,7 +60,7 @@
 
 .title_container {
   display: flex;
-  align-items: center;
+  justify-content: center;
 }
 
 .title-name {
@@ -71,7 +71,7 @@
 .chain {
   padding: 4px;
   width: 210px;
-  min-height: 300px;
+  min-height: 180px;
   border-radius: 6px;
 }
 
