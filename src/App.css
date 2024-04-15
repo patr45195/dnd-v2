@@ -75,6 +75,7 @@
   width: 210px;
   min-height: 180px;
   border-radius: 6px;
+  margin: 2px;
 }
 
 .node {
