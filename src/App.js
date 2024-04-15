@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./App.css";
 import { handleDragAndDrop } from "./utils/handleDragAndDrop";
+import { Button } from "@mui/material";
 
 const initData = {
   initialNodes: {
@@ -54,6 +55,18 @@ function App() {
   const [columns, setColumns] = useState(initData);
   const [forwardColumns, setForwardColums] = useState(initForwardData);
   const [backwardColumns, setBackwardColums] = useState(initBackwardData);
+
+  const addForwardChain = () => {
+    setForwardColums((prevState) => {
+      return {
+        ...prevState,
+        [`forward_chain_${Object.keys(prevState).length + 1}`]: {
+          name: "Chain Item",
+          items: [],
+        },
+      };
+    });
+  };
 
   return (
     <div className="layout">
@@ -178,6 +191,13 @@ function App() {
                   </div>
                 );
               })}
+              <Button
+                sx={{ width: "100px", height: "100px" }}
+                variant="contained"
+                onClick={addForwardChain}
+              >
+                Add Forward Chain
+              </Button>
             </div>
             <div className="backward-block">
               <h2 className="direction-title">Backward ←</h2>
